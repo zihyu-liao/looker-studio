@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<style>
+
+body{
+margin:0;
+background:black;
+color:white;
+font-family:Arial,"Microsoft JhengHei";
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+#timer{
+font-size:80px;
+font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="timer">--:--</div>
+
+<script>
+
+// 設定固定結束時間 (今天 14:30)
+const endHour = 23;
+const endMinute = 00;
+
+function updateTimer(){
+
+const now = new Date();
+
+const endTime = new Date();
+endTime.setHours(endHour);
+endTime.setMinutes(endMinute);
+endTime.setSeconds(0);
+
+const remaining = endTime - now;
+
+if(remaining <= 0){
+document.getElementById("timer").innerHTML = "00:00";
+return;
+}
+
+const minutes = Math.floor((remaining/1000)/60);
+const seconds = Math.floor((remaining/1000)%60);
+
+document.getElementById("timer").innerHTML =
+String(minutes).padStart(2,'0') + ":" +
+String(seconds).padStart(2,'0');
+
+}
+
+setInterval(updateTimer,1000);
+updateTimer();
+
+</script>
+
+</body>
+</html>
