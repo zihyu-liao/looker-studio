@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+
+<style>
+
+body{
+margin:0;
+background:#111;
+color:white;
+font-family:Arial,"Microsoft JhengHei";
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+flex-direction:column;
+}
+
+#timer{
+font-size:80px;
+font-weight:bold;
+margin-bottom:20px;
+}
+
+.controls{
+margin-top:10px;
+}
+
+input{
+font-size:18px;
+padding:5px;
+}
+
+button{
+font-size:18px;
+padding:6px 14px;
+margin-left:5px;
+cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="timer">00:00</div>
+
+<div class="controls">
+
+結束時間：
+<input type="time" id="endTime">
+
+<button onclick="setEndTime()">設定</button>
+
+</div>
+
+<script>
+
+let endTimestamp = null;
+
+function setEndTime(){
+
+const timeInput = document.getElementById("endTime").value;
+
+if(!timeInput) return;
+
+const now = new Date();
+const end = new Date();
+
+const parts = timeInput.split(":");
+
+end.setHours(parts[0]);
+end.setMinutes(parts[1]);
+end.setSeconds(0);
+
+endTimestamp = end.getTime();
+
+}
+
+function updateTimer(){
+
+if(!endTimestamp) return;
+
+const now = new Date().getTime();
+
+const remaining = endTimestamp - now;
+
+if(remaining <= 0){
+document.getElementById("timer").innerHTML="00:00";
+return;
+}
+
+const minutes = Math.floor((remaining/1000)/60);
+const seconds = Math.floor((remaining/1000)%60);
+
+document.getElementById("timer").innerHTML =
+String(minutes).padStart(2,'0') + ":" +
+String(seconds).padStart(2,'0');
+
+}
+
+setInterval(updateTimer,1000);
+
+</script>
+
+</body>
+</html>
